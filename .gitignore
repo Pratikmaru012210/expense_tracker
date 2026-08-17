@@ -35,3 +35,8 @@ functional
 
 backend/__pycache__/
 backend/venv/
+
+# Environment variables
+.env
+.env.*
+!.env.example
