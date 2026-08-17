@@ -1,3 +1,7 @@
+# =========================
+# Node / React
+# =========================
+
 # Logs
 logs
 *.log
@@ -24,3 +28,10 @@ dist-ssr
 *.sw?
 
 functional
+
+# =========================
+# Python / FastAPI
+# =========================
+
+backend/__pycache__/
+backend/venv/
