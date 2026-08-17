@@ -1,5 +1,3 @@
-import React from 'react'
-
 const App = () => {
   const getHealth = async () => {
     const response = await fetch('http://localhost:8000/health')
