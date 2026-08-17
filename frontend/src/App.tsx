@@ -1,6 +1,6 @@
 const App = () => {
   const getHealth = async () => {
-    const response = await fetch('http://localhost:8000/health')
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/health`)
     const data = await response.json()
 
     console.log(data)
