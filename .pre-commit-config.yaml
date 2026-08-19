@@ -15,3 +15,10 @@ repos:
         language: system
         files: ^frontend/
         pass_filenames: false
+
+      - id: backend-ruff
+        name: Backend Ruff
+        entry: ruff check backend/
+        language: system
+        files: ^backend/
+        pass_filenames: false
