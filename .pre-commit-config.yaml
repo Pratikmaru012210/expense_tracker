@@ -16,6 +16,13 @@ repos:
         files: ^frontend/
         pass_filenames: false
 
+      - id: frontend-prettier
+        name: Frontend Prettier
+        entry: npx --prefix frontend prettier --write .
+        language: system
+        files: ^frontend/
+        pass_filenames: false
+
       - id: backend-ruff
         name: Backend Ruff
         entry: ruff check backend/

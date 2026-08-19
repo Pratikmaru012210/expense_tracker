@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from '@testing-library/react'
+
+import App from './App'
 
 test('renders hello world text', () => {
-  render(<App />);
-  const helloElement = screen.getByText(/hello world/i);
-  expect(helloElement).toBeInTheDocument();
-});
+  render(<App />)
+  const helloElement = screen.getByText(/hello world/i)
+  expect(helloElement).toBeInTheDocument()
+})

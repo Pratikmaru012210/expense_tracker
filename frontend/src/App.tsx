@@ -1,18 +1,15 @@
 const App = () => {
-
   const getHealth = async () => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/health`)
     const data = await response.json()
 
     console.log(data)
-    console.log("Hello world")
+    console.log('Hello world')
   }
 
   return (
     <div>
-      <p className="bg-green-600 text-white p-4">
-        Hello world
-      </p>
+      <p className="bg-green-600 text-white p-4">Hello world</p>
 
       <button
         onClick={getHealth}
