@@ -1,4 +1,9 @@
+import { useState } from "react"
+
 const App = () => {
+
+  const [e1, setE1] = useState();
+
   const getHealth = async () => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/health`)
     const data = await response.json()
