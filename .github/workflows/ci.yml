@@ -49,6 +49,7 @@ jobs:
           path: frontend/dist
 
   backend-test:
+    needs: frontend-test
     runs-on: ubuntu-latest
 
     steps:
