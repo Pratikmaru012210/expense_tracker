@@ -75,3 +75,25 @@ jobs:
       - name: Run tests
         working-directory: backend
         run: pytest
+
+  deploy-preview:
+    needs: backend-test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Preview
+
+    steps:
+      - name: Deploy to Preview
+        run: echo "Deploying application to Preview environment"
+
+  deploy-staging:
+    needs: deploy-preview
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Staging
+
+    steps:
+      - name: Deploy to Staging
+        run: echo "Deploying application to Staging environment"
