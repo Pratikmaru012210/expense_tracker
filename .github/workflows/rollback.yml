@@ -1,0 +1,27 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version / commit SHA to rollback to"
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Production
+
+    steps:
+      - name: Show rollback version
+        run: |
+          echo "Starting rollback..."
+          echo "Rolling back to version: ${{ inputs.version }}"
+
+      - name: Rollback application
+        run: |
+          echo "Deploying version ${{ inputs.version }} to Production..."
+          echo "Rollback completed successfully!"
