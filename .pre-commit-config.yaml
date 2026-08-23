@@ -23,6 +23,13 @@ repos:
         files: ^frontend/
         pass_filenames: false
 
+      - id: frontend-test
+        name: Frontend Test
+        entry: npm --prefix frontend test -- --runInBand --watchAll=false
+        language: system
+        files: ^frontend/
+        pass_filenames: false
+
       - id: backend-ruff
         name: Backend Ruff
         entry: ruff check backend/

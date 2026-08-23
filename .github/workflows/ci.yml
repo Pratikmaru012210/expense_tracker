@@ -10,7 +10,6 @@ on:
       - main
 
 jobs:
-
   validate-pr-source:
     name: Validate PR source branch
     if: github.event_name == 'pull_request'
