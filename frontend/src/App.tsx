@@ -1,49 +1,23 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  useAuth,
-  UserButton,
-} from '@clerk/clerk-react'
-import { useEffect, useState } from 'react'
+import { useAuth } from '@clerk/clerk-react'
+import { useEffect } from 'react'
+
+import { FeaturesSection } from './components/home/FeaturesSection'
+import { HeroSection } from './components/home/HeroSection'
+import { Footer } from './components/layout/Footer'
+import { Header } from './components/layout/Header'
 
 const App = () => {
-  const { getToken } = useAuth()
-  const [healthStatus, setHealthStatus] = useState<{
-    status?: string
-    message?: string
-    error?: string
-  } | null>(null)
-  const [initialMsg, setInitialMsg] = useState<string>('')
+  useAuth()
 
-  const getHealth = async () => {
-    try {
-      const token = await getToken()
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/health`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      const data = await response.json()
-      setHealthStatus(data)
-      console.log(data)
-    } catch (err) {
-      console.error(err)
-      setHealthStatus({ error: 'Failed to fetch health status' })
-    }
-  }
-
+  // Keep the backend check logic for debugging purposes, but remove it from the main UI
   useEffect(() => {
     const getInitialReq = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/`)
         const data = await response.json()
-        setInitialMsg(data.message || '')
-        console.log(data)
+        console.log('Backend Initial Check:', data)
       } catch (err) {
-        console.error(err)
-        setHealthStatus({ error: 'Failed to fetch initial request' })
+        console.error('Failed to fetch initial request', err)
       }
     }
 
@@ -51,33 +25,15 @@ const App = () => {
   }, [])
 
   return (
-    <div className="p-8">
-      <header className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Networth Calculator</h1>
-        <div>
-          <SignedOut>
-            <SignInButton mode="modal" />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
-      </header>
+    <div className="flex min-h-screen flex-col">
+      <Header />
 
-      <p className="bg-green-600 text-white p-4 rounded mb-4">{initialMsg}</p>
+      <main className="flex-1">
+        <HeroSection />
+        <FeaturesSection />
+      </main>
 
-      <button
-        onClick={getHealth}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Check Backend (/health)
-      </button>
-
-      {healthStatus && (
-        <pre className="mt-4 p-4 bg-gray-100 rounded">
-          {JSON.stringify(healthStatus, null, 2)}
-        </pre>
-      )}
+      <Footer />
     </div>
   )
 }
