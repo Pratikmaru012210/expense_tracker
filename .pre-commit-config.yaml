@@ -37,3 +37,10 @@ repos:
         additional_dependencies: [ruff]
         files: ^backend/
         pass_filenames: false
+
+      - id: backend-test
+        name: Backend Test
+        entry: pytest backend/
+        language: system
+        files: ^backend/
+        pass_filenames: false
