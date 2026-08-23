@@ -23,9 +23,24 @@ repos:
         files: ^frontend/
         pass_filenames: false
 
+      - id: frontend-test
+        name: Frontend Test
+        entry: npm --prefix frontend test -- --runInBand --watchAll=false
+        language: system
+        files: ^frontend/
+        pass_filenames: false
+
       - id: backend-ruff
         name: Backend Ruff
         entry: ruff check backend/
+        language: python
+        additional_dependencies: [ruff]
+        files: ^backend/
+        pass_filenames: false
+
+      - id: backend-test
+        name: Backend Test
+        entry: pytest backend/
         language: system
         files: ^backend/
         pass_filenames: false

@@ -4,12 +4,31 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
 
 jobs:
+  validate-pr-source:
+    name: Validate PR source branch
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify source branch
+        run: |
+          if [ "${{ github.head_ref }}" != "dev" ]; then
+            echo "❌ Pull requests to main can only come from the dev branch."
+            echo "Source branch: ${{ github.head_ref }}"
+            echo "Target branch: ${{ github.base_ref }}"
+            exit 1
+          fi
+
+          echo "✅ Valid PR: ${{ github.head_ref }} → ${{ github.base_ref }}"
+
   frontend-test:
+    needs: validate-pr-source
     runs-on: ubuntu-latest
 
     defaults:
