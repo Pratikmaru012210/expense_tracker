@@ -9,14 +9,22 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
+
 jobs:
+
+  # ============================================================
+  # 1. Validate PR source branch
+  # ============================================================
   validate-pr-source:
     name: Validate PR source branch
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Verify source branch
+      - name: Verify source branch for PR
+        if: github.event_name == 'pull_request'
         run: |
           if [ "${{ github.head_ref }}" != "dev" ]; then
             echo "❌ Pull requests to main can only come from the dev branch."
@@ -27,7 +35,18 @@ jobs:
 
           echo "✅ Valid PR: ${{ github.head_ref }} → ${{ github.base_ref }}"
 
+      - name: Skip validation for push to main
+        if: github.event_name == 'push'
+        run: |
+          echo "✅ Push to main detected."
+          echo "PR source branch validation is not required."
+
+
+  # ============================================================
+  # 2. Frontend CI
+  # ============================================================
   frontend-test:
+    name: Frontend CI
     needs: validate-pr-source
     runs-on: ubuntu-latest
 
@@ -36,6 +55,7 @@ jobs:
         working-directory: frontend
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -67,11 +87,17 @@ jobs:
           name: frontend-build-${{ github.sha }}
           path: frontend/dist
 
+
+  # ============================================================
+  # 3. Backend CI
+  # ============================================================
   backend-test:
+    name: Backend CI
     needs: frontend-test
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -95,7 +121,12 @@ jobs:
         working-directory: backend
         run: pytest
 
+
+  # ============================================================
+  # 4. Deploy Preview
+  # ============================================================
   deploy-preview:
+    name: Deploy to Preview
     needs: backend-test
     runs-on: ubuntu-latest
 
@@ -103,10 +134,17 @@ jobs:
       name: Preview
 
     steps:
-      - name: Deploy to Preview
-        run: echo "Deploying application to Preview environment"
 
+      - name: Deploy to Preview
+        run: |
+          echo "Deploying application to Preview environment"
+
+
+  # ============================================================
+  # 5. Deploy Staging
+  # ============================================================
   deploy-staging:
+    name: Deploy to Staging
     needs: deploy-preview
     runs-on: ubuntu-latest
 
@@ -114,5 +152,7 @@ jobs:
       name: Staging
 
     steps:
+
       - name: Deploy to Staging
-        run: echo "Deploying application to Staging environment"
+        run: |
+          echo "Deploying application to Staging environment"
