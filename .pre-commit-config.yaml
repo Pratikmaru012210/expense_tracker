@@ -26,6 +26,7 @@ repos:
       - id: backend-ruff
         name: Backend Ruff
         entry: ruff check backend/
-        language: system
+        language: python
+        additional_dependencies: [ruff]
         files: ^backend/
         pass_filenames: false
